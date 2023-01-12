@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ssm/src/constant.dart';
 import 'package:ssm/src/models/models.dart';
+import 'package:ssm/src/util/firebase.dart';
 
 class SettlementRoomButton extends StatefulWidget {
   const SettlementRoomButton({
@@ -44,12 +45,14 @@ class _SettlementRoomButtonState extends State<SettlementRoomButton>
     widget.roomInfo.totalPayment.forEach(
       (key, value) => list.add(
         Text(
-          value.toString(),
+          "${value.toString()} ${currencyToEmoji[key]}",
           style: GoogleFonts.jua(fontSize: 18),
         ),
       ),
     );
-    return Column();
+    return Column(
+      children: list,
+    );
   }
 
   @override
@@ -107,7 +110,12 @@ class _SettlementRoomButtonState extends State<SettlementRoomButton>
                                 const Icon(Icons.more_vert)
                               ],
                             ),
-                            getTotalPaymentText()
+                            Text(widget.roomInfo.desc),
+                            widget.roomInfo.payments.isNotEmpty
+                                ? LastestPaymentRow(
+                                    info: widget.roomInfo.payments.last,
+                                  )
+                                : const Center()
                           ],
                         ),
                       )),
@@ -116,5 +124,39 @@ class _SettlementRoomButtonState extends State<SettlementRoomButton>
                 ),
               );
             }));
+  }
+}
+
+class LastestPaymentRow extends StatefulWidget {
+  const LastestPaymentRow({super.key, required this.info});
+  final Payment info;
+
+  @override
+  State<LastestPaymentRow> createState() => _LastestPaymentRowState();
+}
+
+class _LastestPaymentRowState extends State<LastestPaymentRow> {
+  SUser? user = testUser1;
+  @override
+  void initState() {
+    super.initState();
+    // FireStoreMethods.getUser(widget.info.user).then((value) => setState(
+    //       () => user = value,
+    //     ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: user != null
+          ? Column(
+              children: [
+                Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [const Icon(Icons.person), Text(user!.name)])
+              ],
+            )
+          : Column(),
+    );
   }
 }

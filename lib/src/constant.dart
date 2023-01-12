@@ -18,33 +18,40 @@ List<String> loginSlogans = const [
 ];
 
 SUser testUser1 =
-    const SUser(name: "만보80", email: "aksqh80@naver.com", userId: "천연가스버스");
+    const SUser(name: "만보80", email: "achoe628@gmail.com", userId: "천연가스버스");
 SUser testUser2 =
-    const SUser(name: "만보79", email: "sqh80@naver.com", userId: "천연버스");
+    const SUser(name: "만보79", email: "achoe628@gmail.com", userId: "천연버스");
 SUser testUser3 =
-    const SUser(name: "만보78", email: "ksqh80@naver.com", userId: "천연가스버");
+    const SUser(name: "만보78", email: "achoe628@gmail.com", userId: "천연가스버");
 Payment pay1 = Payment(
-    userEmail: testUser1.email,
+    user: testUser1.email,
+    where: "편의점",
+    what: "맥주 4개",
     price: 20000,
     users: ["김석주", "김태연", "이준구", "이우람"],
     time: 1231241241241);
 Payment pay2 = Payment(
-    userEmail: testUser2.email,
+    user: testUser2.email,
+    where: "슈퍼",
+    what: "여러 식자재",
     price: 2123000,
     users: ["김석주", "김태연", "이준구", "이우람"],
     time: 1231241241241);
 Payment pay3 = Payment(
-    userEmail: testUser3.email,
+    user: testUser3.email,
+    where: "조양 슈퍼",
+    what: "와인",
     price: 201220,
     users: ["김석주", "김태연", "이준구", "이우람"],
     time: 1231241241241);
-Settlement settle1 = Settlement(title: "결자해지", users: [
-  "김석주",
-  "김태연",
-  "이준구",
-  "이우람"
-], payments: {
-  "김석주": [pay1],
-  "김태연": [pay2],
-  "이준구": [pay3],
-});
+Settlement settle1 = Settlement(
+  payments: [pay1, pay2, pay3],
+  title: "결자해지",
+  desc: "논현짠물모임",
+  users: ["김석주", "김태연", "이준구", "이우람"],
+);
+
+Map<Currency, String> currencyToEmoji = {
+  Currency.won: "￦",
+  Currency.dollor: "\$",
+};
